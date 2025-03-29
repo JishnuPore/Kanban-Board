@@ -1,0 +1,58 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "demo title",
+      "description": "demo description",
+      "status": "done"
+    },
+    {
+      "id": "2",
+      "title": "demo title 2",
+      "description": "demo description 2",
+      "status": "todo"
+    },
+    {
+      "id": "3",
+      "title": "demo title 3",
+      "description": "demo description 3",
+      "status": "todo"
+    },
+    {
+      "id": "4",
+      "title": "demo title 4",
+      "description": "demo description 4",
+      "status": "peer review"
+    },
+    {
+      "id": "5",
+      "title": "new task",
+      "description": "lorem ipsum",
+      "status": "todo"
+    },
+    {
+      "id": "6",
+      "title": "project done ",
+      "description": "tuning remains",
+      "status": "peer review"
+    },
+    {
+      "id": "7",
+      "title": "what's kanban ",
+      "description": "link to what's kanban",
+      "status": "in progress"
+    },
+    {
+      "id": "8",
+      "title": "About us",
+      "description": "Link to About us in the end",
+      "status": "in progress"
+    },
+    {
+      "id": "9",
+      "title": "What is leading-relaxed?",
+      "description": "In Tailwind's default configuration, leading-relaxed corresponds to a line-height value of 1.625.",
+      "status": "done"
+    }
+  ]
+}
