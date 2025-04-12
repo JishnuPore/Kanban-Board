@@ -74,6 +74,29 @@ function App() {
     });
   };
 
+  // Function to edit task
+  const handleUpdateTask = async (updatedTask: Task) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+    );
+    // Send PATCH request to backend
+    await fetch(`http://localhost:3000/tasks/${updatedTask.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedTask),
+    });
+  };
+
+  // Function to delete task
+  const handleDeleteTask = async (taskId: number) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+
+    // Send DELETE request to backend
+    await fetch(`http://localhost:3000/tasks/${taskId}`, {
+      method: "DELETE",
+    });
+  };
+
   const filteredTasks = tasks.filter(
     (task) =>
       task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -100,7 +123,7 @@ function App() {
         onKanbanClick={scrollToKanban}
         onAboutClick={scrollToAbout}
       />
-      
+
       {/* Hero section with improved typography */}
       <div className="max-w-6xl mx-auto px-4 py-8">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-2">
@@ -109,7 +132,7 @@ function App() {
         <p className="text-xl text-gray-600 text-center mb-8">
           Manage your tasks like never before. Try out our Kanban board now.
         </p>
-        
+
         {/* Main Kanban Board */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-12">
           <div className="flex flex-col md:flex-row gap-6">
@@ -117,8 +140,8 @@ function App() {
               <div
                 key={status}
                 className={`flex-1 min-w-[220px] md:min-w-0 p-4 rounded-lg transition-all duration-200 ${
-                  currentlyHoveringOver === status 
-                    ? "bg-blue-50 shadow-md border-2 border-blue-200" 
+                  currentlyHoveringOver === status
+                    ? "bg-blue-50 shadow-md border-2 border-blue-200"
                     : "bg-gray-50 border border-gray-200"
                 }`}
                 onDragOver={(e) => e.preventDefault()}
@@ -130,15 +153,16 @@ function App() {
                     {status.toUpperCase()}
                   </h2>
                 </div>
-                
+
                 <div className="min-h-[200px]">
                   {filteredTasks
                     .filter((task) => task.status === status)
                     .map((task) => (
-                      <TaskCard key={task.id} task={task} />
+                      <TaskCard key={task.id} task={task} onUpdateTask={handleUpdateTask} onDeleteTask={handleDeleteTask} />
                     ))}
-                    
-                  {filteredTasks.filter((task) => task.status === status).length === 0 && (
+
+                  {filteredTasks.filter((task) => task.status === status)
+                    .length === 0 && (
                     <div className="h-20 flex items-center justify-center text-gray-400 italic border border-dashed border-gray-200 rounded-lg">
                       No tasks yet
                     </div>
@@ -147,15 +171,24 @@ function App() {
               </div>
             ))}
           </div>
-          
+
           <div className="flex justify-center mt-8">
             <button
               onClick={() => setIsModalOpen(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full shadow-md transition-colors duration-200 flex items-center space-x-2"
             >
               <span>Add New Task</span>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                  clipRule="evenodd"
+                />
               </svg>
             </button>
             <TaskModal
@@ -166,11 +199,11 @@ function App() {
           </div>
         </div>
       </div>
-      
+
       <div ref={kanbanRef}>
         <Kanban />
       </div>
-      
+
       <div ref={aboutRef}>
         <About />
       </div>
